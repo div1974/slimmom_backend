@@ -1,15 +1,16 @@
 const { Schema, model } = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate-v2')
+
 const userDaySchema = new Schema(
   {
     //
     day: { type: Date, default: Date.now },
-    foods:[String],
-    summary:{
-        rest: Number,
-        intake: Number,
-        dailyRate: Number,
-        ratio2Norma: String
+    foods: [String],
+    summary: {
+      rest: Number,
+      intake: Number,
+      dailyRate: Number,
+      ratio2Norma: String
     },
     owner: {
       type: Schema.Types.ObjectId,
@@ -18,7 +19,7 @@ const userDaySchema = new Schema(
   },
   { versionKey: false }
 )
-contactSchema.plugin(mongoosePaginate)
+userDaySchema.plugin(mongoosePaginate)
 const UserDay = model('UserDay', userDaySchema)
 
 module.exports = UserDay

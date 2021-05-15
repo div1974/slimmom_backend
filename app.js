@@ -23,11 +23,26 @@ app.use('/api/products', foodsRouter)
 app.use('/api/usersDays', usersDaysRouter)
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
+  res.status(404).json({
+    status: 'Error',
+    code: 404,
+    message: 'Not found such page or route'
+  })
 })
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
+  res.status(500).json({
+    status: 'Error',
+    code: 500,
+    message: err.message
+  })
+  // err.status = err.status ? err.status : 500
+  // res.status(err.status).json({
+  //   status: err.status === 500 ? 'Fail' : 'Error',
+  //   code: err.status,
+  //   message: err.message,
+  //   data: err.status === 500 ? 'Internal Server Error' : err.data
+  // })
 })
 
 module.exports = app
