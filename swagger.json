@@ -1,0 +1,85 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.1",
+    "title": "Swagger test",
+    "description": "Showing off swagger-ui-express",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensourse.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json"],
+  "produses": ["application/json"],
+  "servers": [{ "url": "http://localhost:3000" }],
+  "tags": [
+    {
+      "name": "Products",
+      "description": "Calories and Products endpoinds"
+    }
+  ],
+
+  "paths": {
+    "/api/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Not recommended products",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Blood type object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductsResponse"
+              }
+            }
+          }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "ProductsRequest": {
+        "type": "object",
+        "required": ["groupBloodNotAllowed"],
+        "properties": {
+          "groupBloodNotAllowed": {
+            "type": "boolean",
+            "description": "Blood type",
+            "example": [false, false, false, true]
+          }
+        }
+      },
+      "ProductsResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Not recommended products",
+            "example": {"ru": "Арахис сушеный", "ua": "Арахіс сушений"}
+          }
+        }
+      }
+    }
+  }
+}
