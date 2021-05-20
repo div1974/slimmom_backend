@@ -66,7 +66,19 @@ const login = async (req, res, next) => {
   }
 }
 
+const logout = async (req, res, next) => {
+  const id = req.user.id
+  console.log(id)
+  await serviceAuth.logout(id)
+  return res.status(204).json({
+    status: 'Success',
+    code: 204,
+    // message: 'User logout!'
+  })
+}
+
 module.exports = {
   signup,
   login,
+  logout,
 }

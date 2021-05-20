@@ -32,6 +32,11 @@ class AuthService {
     console.log(user)
     return token
   }
+
+  async logout(id) {
+    const data = await this.updateToken(id, null)
+    return data
+  }
 }
 
 module.exports = AuthService
