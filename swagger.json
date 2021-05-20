@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.0.1",
+    "version": "1.0.3",
     "title": "Swagger test",
     "description": "Showing off swagger-ui-express",
     "license": {
@@ -18,18 +18,21 @@
       "description": "Signup endpoints"
     },
     {
+      "name": "Users",
+      "description": "Authentication endpoints"
+    },
+    {
       "name": "Products",
       "description": "Calories and Products endpoinds"
     }
   ],
 
   "paths": {
-    "'api/users/signup": {
+    "api/users/signup": {
       "post": {
         "tags": ["Users"],
         "summary": "User registration",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -63,12 +66,52 @@
         }
       }
     },
+
+    "api/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User authentication",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Authentication's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid creadentials (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "This email was not found",
+            "content": {}
+          }
+        }
+      }
+    },
+
     "/api/products": {
       "get": {
         "tags": ["Products"],
         "summary": "Not recommended products",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Blood type object",
           "required": true,
@@ -109,7 +152,7 @@
           "name": {
             "type": "string",
             "description": "User's name",
-            "example": "Roman"
+            "example": "User"
           },
           "login": {
             "type": "string",
@@ -141,9 +184,59 @@
             "description": "User's password",
             "example": "hashed password"
           }
+        },
+        "example": {
+          "status": "Success",
+          "code": 201,
+          "message": "User with name: 'Olga' added successfully!",
+          "data": {
+          "id": "60a68ec360b8d40858e3f15b",
+          "name": "Olga",
+          "login": "olga@gmail.com",
+          "password": "$2a$06$qANrU55.gBBgLwMroVVGC.2C9J0IjOGnISKB12KNTeonCJDtYhH9W"
+    }
         }
       },
 
+      "AuthenticationRequest": {
+        "type": "object",
+        "required": ["login", "password"],
+        "properties": {
+          "login": {
+            "type": "string",
+            "description": "User's login",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "AuthenticationResponse": {
+        "type": "object",
+        "properties": {
+           "login": {
+            "type": "string",
+            "description": "User's login",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "hashed password"
+          }
+        },
+        "example": {
+          "status": "Success",
+          "code": 200,
+          "message": "User with login: 'user@gmail.com' logged in!",
+          "data": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYTY4ZWMzNjBiOGQ0MDg1OGUzZjE1YiIsImlhdCI6MTYyMTUyODM5OSwiZXhwIjoxNjIxNjE0Nzk5fQ.4nfCGSY1JsB1NX-N4P_lpZQ6AzaDOLITflE6lbEyNrM"
+    }
+        }
+      },
 
       "ProductsRequest": {
         "type": "object",
@@ -158,12 +251,28 @@
       },
       "ProductsResponse": {
         "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "description": "Not recommended products",
-            "example": {"ru": "Арахис сушеный", "ua": "Арахіс сушений"}
+        "items": {
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Not recommended products",
+              "example": {"ru": "Арахис сушеный", "ua": "Арахіс сушений"}
+            }
           }
+        },
+        "example": {
+          "status": "Success",
+          "code": 200,
+          "message": "Not recommended products",
+          "products": [
+            {
+              "_id": "5d51694902b2373622ff5c4d",
+              "title": {
+                "ru": "Масло арахисовое PB2 сухое обезжиренное",
+                "ua": "Олія арахісове PB2 сухе знежирене"
+              }
+            }
+          ]
         }
       }
     },
