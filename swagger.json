@@ -28,7 +28,7 @@
   ],
 
   "paths": {
-    "api/users/signup": {
+    "/api/users/signup": {
       "post": {
         "tags": ["Users"],
         "summary": "User registration",
@@ -67,7 +67,7 @@
       }
     },
 
-    "api/users/login": {
+    "/api/users/login": {
       "post": {
         "tags": ["Users"],
         "summary": "User authentication",
