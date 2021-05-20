@@ -14,6 +14,8 @@ class UserService {
 
   async findByEmail(login) {
     const userByEmail = await this.model.findOne({ login })
+    console.log('login', login)
+    console.log('userByEmail', userByEmail)
     return userByEmail
   }
 }

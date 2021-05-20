@@ -5,6 +5,8 @@ const controllerUser = require('../../src/controllers/controllerUser')
 
 router.post('/signup', controllerUser.signup)
 
+router.post('/login', controllerUser.login)
+
 // router.get('/', async (req, res, next) => {
 //   res.json({ message: 'template message' })
 // })

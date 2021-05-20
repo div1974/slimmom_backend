@@ -1,12 +1,13 @@
-const { UserService } = require('../services')
+const { UserService, AuthService } = require('../services')
 
 const serviceUser = new UserService()
+const serviceAuth = new AuthService()
 
 const signup = async (req, res, next) => {
   const { name, login, password } = req.body
   const user = await serviceUser.findByEmail(login)
   if (user) {
-    return next({
+    return res.json({
       status: 'Conflict',
       code: 409,
       message: 'This email is already use',
@@ -33,6 +34,39 @@ const signup = async (req, res, next) => {
   }
 }
 
+const login = async (req, res, next) => {
+  const { login, password } = req.body
+  const user = await serviceUser.findByEmail(login)
+  if (!user) {
+    return res.json({
+      status: 404,
+      message: `This login: ${login} was not found`,
+      data: 'Not found',
+    })
+  }
+  try {
+    const token = await serviceAuth.login(login, password)
+    if (token) {
+      return res.status(200).json({
+        status: 'Success',
+        code: 200,
+        message: `User with login: '${login}' logged in!`,
+        data: {
+          token
+        }
+      })
+    }
+    res.json({
+      status: 'Error',
+      code: 401,
+      message: 'Invalid creadentials',
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   signup,
+  login,
 }

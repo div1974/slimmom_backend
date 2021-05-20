@@ -18,6 +18,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required'],
+      minlength: 6,
     },
     // NotAllowedFoods: {
     //   type: [Boolean],
@@ -26,10 +27,10 @@ const userSchema = new Schema(
     // dailyCalorieIntake: {
     //   type: Number
     // },
-    // token: {
-    //   type: String,
-    //   default: null,
-    // },
+    token: {
+      type: String,
+      default: null,
+    },
     // verify: {
     //   type: Boolean,
     //   default: false,
@@ -51,8 +52,8 @@ userSchema.methods.setPassword = async function(password) {
   this.password = await bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_FACTOR))
 }
 
-userSchema.methods.validPassword = function(password) {
-  return bcrypt.compareSync(password, this.password)
+userSchema.methods.validPassword = async function(password) {
+  return await bcrypt.compareSync(password, this.password)
 }
 const User = model('User', userSchema)
 
