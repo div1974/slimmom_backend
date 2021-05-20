@@ -152,7 +152,7 @@
           "name": {
             "type": "string",
             "description": "User's name",
-            "example": "User"
+            "example": "Roman"
           },
           "login": {
             "type": "string",
@@ -188,11 +188,11 @@
         "example": {
           "status": "Success",
           "code": 201,
-          "message": "User with name: 'Olga' added successfully!",
+          "message": "User with name: 'Roman' added successfully!",
           "data": {
           "id": "60a68ec360b8d40858e3f15b",
-          "name": "Olga",
-          "login": "olga@gmail.com",
+          "name": "Roman",
+          "login": "user@gmail.com",
           "password": "$2a$06$qANrU55.gBBgLwMroVVGC.2C9J0IjOGnISKB12KNTeonCJDtYhH9W"
     }
         }
@@ -217,7 +217,7 @@
       "AuthenticationResponse": {
         "type": "object",
         "properties": {
-           "login": {
+          "login": {
             "type": "string",
             "description": "User's login",
             "format": "email"
