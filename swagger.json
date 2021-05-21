@@ -71,46 +71,6 @@
       }
     },
 
-    "/api/users/logout": {
-      "post": {
-        "tags": ["Users"],
-        "summary": "User logout",
-        "parameters": [],
-        "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Logout's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LogoutRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LogoutResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid creadentials (invalid request body)",
-            "content": {}
-          },
-          "404": {
-            "description": "This email was not found",
-            "content": {}
-          }
-        }
-      }
-    },
-
     "/api/users/login": {
       "post": {
         "tags": ["Users"],
@@ -145,6 +105,41 @@
           },
           "404": {
             "description": "This email was not found",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Logout's object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
             "content": {}
           }
         }
@@ -280,6 +275,17 @@
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYTY4ZWMzNjBiOGQ0MDg1OGUzZjE1YiIsImlhdCI6MTYyMTUyODM5OSwiZXhwIjoxNjIxNjE0Nzk5fQ.4nfCGSY1JsB1NX-N4P_lpZQ6AzaDOLITflE6lbEyNrM"
     }
         }
+      },
+
+      "LogoutRequest": {
+        "type": "object",
+        "description": "No content",
+        "example": "No content"
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "description": "No content",
+        "example": "No content"
       },
 
       "ProductsRequest": {
