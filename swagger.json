@@ -22,6 +22,10 @@
       "description": "Authentication endpoints"
     },
     {
+      "name": "Users",
+      "description": "Logout endpoints"
+    },
+    {
       "name": "Products",
       "description": "Calories and Products endpoinds"
     }
@@ -61,6 +65,46 @@
           },
           "409": {
             "description": "Provided email already exist",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Logout's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid creadentials (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "This email was not found",
             "content": {}
           }
         }
