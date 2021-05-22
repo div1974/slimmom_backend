@@ -36,11 +36,19 @@ const signup = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { login, password } = req.body
+  // console.log('req.body', req.body)
+  if (!login || !password) {
+    return res.status(400).json({
+      status: 'Error',
+      code: 400,
+      message: 'Login and Password fields are required'
+    })
+  }
   const user = await serviceUser.findByEmail(login)
   if (!user) {
     return res.status(404).json({
       status: 404,
-      message: `This login: ${login} was not found`,
+      message: 'This login was not found',
       data: 'Not found',
     })
   }

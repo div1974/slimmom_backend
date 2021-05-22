@@ -20,11 +20,13 @@ class AuthService {
     }
     const id = user.id
     const payload = { id }
+
     const token = await jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1d' })
     const verifyToken = jwt.verify(token, JWT_SECRET_KEY)
     if (verifyToken) {
       await this.updateToken(id, token)
     }
+
     return token
   }
 
