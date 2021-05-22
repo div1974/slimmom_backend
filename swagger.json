@@ -103,6 +103,10 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request (Login and Password fields are required)",
+            "content": {}
+          },
           "401": {
             "description": "Invalid creadentials (invalid request body)",
             "content": {}
