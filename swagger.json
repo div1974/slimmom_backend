@@ -66,6 +66,10 @@
           "409": {
             "description": "Provided email already exist",
             "content": {}
+          },
+          "500": {
+            "description": "Intarnal Server Error (invalid request body)",
+            "content": {}
           }
         }
       }
@@ -229,11 +233,11 @@
           "code": 201,
           "message": "User with name: 'Roman' added successfully!",
           "data": {
-          "id": "60a68ec360b8d40858e3f15b",
-          "name": "Roman",
-          "login": "user@gmail.com",
-          "password": "$2a$06$qANrU55.gBBgLwMroVVGC.2C9J0IjOGnISKB12KNTeonCJDtYhH9W"
-    }
+            "id": "60a68ec360b8d40858e3f15b",
+            "name": "Roman",
+            "login": "user@gmail.com",
+            "password": "$2a$06$qANrU55.gBBgLwMroVVGC.2C9J0IjOGnISKB12KNTeonCJDtYhH9W"
+          }
         }
       },
 
