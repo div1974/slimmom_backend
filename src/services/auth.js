@@ -20,16 +20,16 @@ class AuthService {
     }
     const id = user.id
     const payload = { id }
-    console.log('Payload', payload)
+    // console.log('Payload', payload)
     const token = await jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1d' })
     const verifyToken = jwt.verify(token, JWT_SECRET_KEY)
     console.log(verifyToken)
     if (verifyToken) {
       await this.updateToken(id, token)
-      console.log('Payload', payload)
-      console.log('Token', token)
+      // console.log('Payload', payload)
+      // console.log('Token', token)
     }
-    console.log(user)
+    // console.log(user)
     return token
   }
 }

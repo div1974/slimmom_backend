@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const controllerUser = require('../../src/controllers/controllerUser')
+// const { validateAuth } = require('../../src/validation/authenticationValidate')
 
 router.post('/signup', controllerUser.signup)
 
