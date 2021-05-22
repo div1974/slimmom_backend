@@ -293,9 +293,9 @@
         "required": ["groupBloodNotAllowed"],
         "properties": {
           "groupBloodNotAllowed": {
-            "type": "boolean",
+            "type": "object",
             "description": "Blood type",
-            "example": [false, false, false, true]
+            "example": [null, false, false, false, true]
           }
         }
       },
