@@ -46,7 +46,7 @@ const login = async (req, res, next) => {
   }
   const user = await serviceUser.findByEmail(login)
   if (!user) {
-    return res.json({
+    return res.status(404).json({
       status: 404,
       message: 'This login was not found',
       data: 'Not found',
@@ -64,7 +64,7 @@ const login = async (req, res, next) => {
         }
       })
     }
-    res.json({
+    res.status(401).json({
       status: 'Error',
       code: 401,
       message: 'Invalid creadentials',
