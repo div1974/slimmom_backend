@@ -2,6 +2,8 @@ const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
 const passport = require('passport')
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger.json')
 const foodsRouter = require('./routes/api/foods')
 const usersRouter = require('./routes/api/users')
 const usersDaysRouter = require('./routes/api/usersDays')
@@ -21,6 +23,8 @@ app.use(passport.initialize())
 app.use('/api/users', usersRouter)
 app.use('/api/products', foodsRouter)
 app.use('/api/usersDays', usersDaysRouter)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.use((req, res) => {
   res.status(404).json({

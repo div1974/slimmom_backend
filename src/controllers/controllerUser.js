@@ -7,8 +7,8 @@ const signup = async (req, res, next) => {
   const { name, login, password } = req.body
   const user = await serviceUser.findByEmail(login)
   if (user) {
-    return res.json({
-      status: 'Conflict',
+    return res.status(409).json({
+      status: 'Error',
       code: 409,
       message: 'This email is already use',
       data: 'Conflict',
@@ -16,7 +16,7 @@ const signup = async (req, res, next) => {
   }
   try {
     const newUser = await serviceUser.createUserRegistry({ name, login, password })
-    console.log(newUser)
+    // console.log(newUser)
     return res.status(201).json({
       status: 'Success',
       code: 201,
@@ -74,7 +74,18 @@ const login = async (req, res, next) => {
   }
 }
 
+const logout = async (req, res, next) => {
+  const id = req.user.id
+  await serviceAuth.logout(id)
+  return res.status(204).json({
+    status: 'Success',
+    code: 204,
+    // message: 'User logout!'
+  })
+}
+
 module.exports = {
   signup,
   login,
+  logout,
 }
