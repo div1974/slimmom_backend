@@ -48,7 +48,7 @@ const login = async (req, res, next) => {
   if (!user) {
     return res.json({
       status: 404,
-      message: `This login: ${login} was not found`,
+      message: 'This login was not found',
       data: 'Not found',
     })
   }
