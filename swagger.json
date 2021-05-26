@@ -31,7 +31,7 @@
     },
     {
       "name": "Products",
-      "description": "Search endpoints"
+      "description": "Search query endpoints"
     }
   ],
 
