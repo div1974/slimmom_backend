@@ -34,7 +34,33 @@ const getProducts = async (req, res, next) => {
   }
 }
 
+const getProductsByQuery = async (req, res, next) => {
+  const { name } = req.query
+  const { query } = req
+  try {
+    const result = await productsServices.getProductsByQuery(name, query)
+    const products = await result.map(product => product.title)
+    if (!name) {
+      return res.status(204).json({
+        status: 'Success',
+        code: 204,
+        message: 'Product not found',
+        products: {}
+      })
+    }
+    res.status(200).json({
+      status: 'Success',
+      code: 200,
+      message: 'Product found',
+      products
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   getDailyCalories,
   getProducts,
+  getProductsByQuery,
 }
