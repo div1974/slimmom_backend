@@ -28,6 +28,10 @@
     {
       "name": "Products",
       "description": "Calories and Products endpoinds"
+    },
+    {
+      "name": "Products",
+      "description": "Search endpoints"
     }
   ],
 
@@ -187,6 +191,37 @@
           }
         }
       }
+    },
+
+    "/api/products/foods?name=query": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Search by query",
+        "parameters": [
+          {
+          "in": "query",
+          "name": "name",
+          "type": "string",
+          "description": "Name of product "
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchProductsResponse"
+              }
+            }
+          }
+          },
+          "204": {
+            "description": "Successful operation. No content",
+            "products": {}
+          }
+        }
+      }
     }
   },
 
@@ -329,6 +364,25 @@
                 "ru": "Масло арахисовое PB2 сухое обезжиренное",
                 "ua": "Олія арахісове PB2 сухе знежирене"
               }
+            }
+          ]
+        }
+      },
+
+      "SearchProductsResponse": {
+        "type": "object",
+        "example": {
+          "status": "Success",
+          "code": 200,
+          "message": "Product found",
+          "products": [
+            {
+              "ru": "Банан",
+              "ua": "Банан"
+            },
+            {
+              "ru": "Бананы сушёные",
+              "ua": "Банани сушені"
             }
           ]
         }
