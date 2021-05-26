@@ -28,10 +28,6 @@
     {
       "name": "Products",
       "description": "Calories and Products endpoinds"
-    },
-    {
-      "name": "Products",
-      "description": "Search endpoints"
     }
   ],
 
@@ -191,37 +187,6 @@
           }
         }
       }
-    },
-
-    "/api/products/foods?name=query": {
-      "get": {
-        "tags": ["Products"],
-        "summary": "Search by query",
-        "parameters": [
-          {
-          "in": "query",
-          "name": "name",
-          "type": "string",
-          "description": "Name of product "
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SearchProductsResponse"
-              }
-            }
-          }
-          },
-          "204": {
-            "description": "Successful operation. No content",
-            "products": {}
-          }
-        }
-      }
     }
   },
 
@@ -316,7 +281,7 @@
           "message": "User with login: 'user@gmail.com' logged in!",
           "data": {
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYTY4ZWMzNjBiOGQ0MDg1OGUzZjE1YiIsImlhdCI6MTYyMTUyODM5OSwiZXhwIjoxNjIxNjE0Nzk5fQ.4nfCGSY1JsB1NX-N4P_lpZQ6AzaDOLITflE6lbEyNrM"
-    }
+          }
         }
       },
 
@@ -364,25 +329,6 @@
                 "ru": "Масло арахисовое PB2 сухое обезжиренное",
                 "ua": "Олія арахісове PB2 сухе знежирене"
               }
-            }
-          ]
-        }
-      },
-
-      "SearchProductsResponse": {
-        "type": "object",
-        "example": {
-          "status": "Success",
-          "code": 200,
-          "message": "Product found",
-          "products": [
-            {
-              "ru": "Банан",
-              "ua": "Банан"
-            },
-            {
-              "ru": "Бананы сушёные",
-              "ua": "Банани сушені"
             }
           ]
         }
