@@ -28,6 +28,10 @@
     {
       "name": "Products",
       "description": "Calories and Products endpoinds"
+    },
+    {
+      "name": "Products",
+      "description": "Search query endpoints"
     }
   ],
 
@@ -184,6 +188,37 @@
           "400": {
             "description": "Bad request (invalid request body)",
             "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/products/foods?name=query": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Search by query",
+        "parameters": [
+          {
+          "in": "query",
+          "name": "name",
+          "type": "string",
+          "description": "Name of product "
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchProductsResponse"
+              }
+            }
+          }
+          },
+          "204": {
+            "description": "Successful operation. No content",
+            "products": {}
           }
         }
       }
