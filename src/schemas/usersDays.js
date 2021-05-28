@@ -3,9 +3,32 @@ const mongoosePaginate = require('mongoose-paginate-v2')
 
 const userDaySchema = new Schema(
   {
-    //
-    day: { type: Date, default: Date.now },
-    foods: [String],
+    day: {
+      type: Date,
+      default: Date.now()
+    },
+    // title: {
+    //   ua: {
+    //     type: String,
+    //   },
+    //   ru: {
+    //     type: String,
+    //   },
+    // },
+    // foods: {
+    // type: Object,
+    // nameProduct: { type: String },
+    weight: {
+      type: Number,
+      default: 100
+    },
+    calories: { type: Number },
+    // },
+    groupBloodNotAllowed: {
+      type: [Boolean],
+      required: [true, 'Blood type is required'],
+      default: false,
+    },
     summary: {
       rest: Number,
       intake: Number,
@@ -14,7 +37,7 @@ const userDaySchema = new Schema(
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'user',
+      ref: 'User',
     }
   },
   { versionKey: false }
