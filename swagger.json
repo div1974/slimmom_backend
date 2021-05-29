@@ -22,13 +22,21 @@
       "description": "Authentication endpoints"
     },
     {
+      "name": "Users",
+      "description": "Logout endpoints"
+    },
+    {
       "name": "Products",
       "description": "Calories and Products endpoinds"
+    },
+    {
+      "name": "Products",
+      "description": "Search query endpoints"
     }
   ],
 
   "paths": {
-    "api/users/signup": {
+    "/api/users/signup": {
       "post": {
         "tags": ["Users"],
         "summary": "User registration",
@@ -62,12 +70,16 @@
           "409": {
             "description": "Provided email already exist",
             "content": {}
+          },
+          "500": {
+            "description": "Intarnal Server Error (invalid request body)",
+            "content": {}
           }
         }
       }
     },
 
-    "api/users/login": {
+    "/api/users/login": {
       "post": {
         "tags": ["Users"],
         "summary": "User authentication",
@@ -95,12 +107,51 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request (Login and Password fields are required)",
+            "content": {}
+          },
           "401": {
             "description": "Invalid creadentials (invalid request body)",
             "content": {}
           },
           "404": {
             "description": "This email was not found",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Logout's object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
             "content": {}
           }
         }
@@ -137,6 +188,37 @@
           "400": {
             "description": "Bad request (invalid request body)",
             "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/products/foods?name=query": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Search by query",
+        "parameters": [
+          {
+          "in": "query",
+          "name": "name",
+          "type": "string",
+          "description": "Name of product "
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchProductsResponse"
+              }
+            }
+          }
+          },
+          "204": {
+            "description": "Successful operation. No content",
+            "products": {}
           }
         }
       }
@@ -190,11 +272,11 @@
           "code": 201,
           "message": "User with name: 'Roman' added successfully!",
           "data": {
-          "id": "60a68ec360b8d40858e3f15b",
-          "name": "Roman",
-          "login": "user@gmail.com",
-          "password": "$2a$06$qANrU55.gBBgLwMroVVGC.2C9J0IjOGnISKB12KNTeonCJDtYhH9W"
-    }
+            "id": "60a68ec360b8d40858e3f15b",
+            "name": "Roman",
+            "login": "user@gmail.com",
+            "password": "$2a$06$qANrU55.gBBgLwMroVVGC.2C9J0IjOGnISKB12KNTeonCJDtYhH9W"
+          }
         }
       },
 
@@ -238,14 +320,25 @@
         }
       },
 
+      "LogoutRequest": {
+        "type": "object",
+        "description": "No content",
+        "example": "No content"
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "description": "No content",
+        "example": "No content"
+      },
+
       "ProductsRequest": {
         "type": "object",
         "required": ["groupBloodNotAllowed"],
         "properties": {
           "groupBloodNotAllowed": {
-            "type": "boolean",
+            "type": "object",
             "description": "Blood type",
-            "example": [false, false, false, true]
+            "example": [null, false, false, false, true]
           }
         }
       },

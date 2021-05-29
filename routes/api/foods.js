@@ -8,5 +8,6 @@ const { validateCalc } = require('../../src/validation/calculatorValidate')
 router
   .get('/', controllerProducts.getProducts)
   .get('/calculator', validateCalc, calculator.getDailyCalories)
+  .get('/foods', controllerProducts.getProductsByQuery)
 
 module.exports = router
