@@ -3,36 +3,49 @@ const calculator = require('../helpers/calculator')
 
 const productsServices = new ProductsServices()
 
-const getDailyCalories = async (req, res, next) => {
+const getCaloriesNotRecProduct = async (req, res, next) => {
   try {
     const { body } = req
+    const { groupBloodNotAllowed } = req.body
+    const { query } = req
     const calories = await calculator(body)
+    const products = await productsServices.getNotRecProducts(groupBloodNotAllowed, query)
+    const notRecProducts = await products.map(product => ({
+      id: product._id, title: product.title, calories: product.calories
+    }))
     res.status(200).json({
       status: 'Success',
       code: 200,
-      message: 'Recommended daily calories intake',
-      calories,
+      message: 'Daily calories and not recommended products',
+      products: {
+        dailyCalories: calories,
+        notRecProducts
+        // notRecProducts: products._id,
+        // title: products.title
+
+      }
+      // products
     })
   } catch (error) {
     next(error)
   }
 }
 
-const getProducts = async (req, res, next) => {
-  try {
-    const { groupBloodNotAllowed } = req.body
-    const { query } = req
-    const products = await productsServices.getNotRecProducts(groupBloodNotAllowed, query)
-    res.status(200).json({
-      status: 'Success',
-      code: 200,
-      message: 'Not recommended products',
-      ...products
-    })
-  } catch (error) {
-    next(error)
-  }
-}
+// const getProducts = async (req, res, next) => {
+//   try {
+//     const { groupBloodNotAllowed } = req.body
+//     const { query } = req
+//     const products = await productsServices.getNotRecProducts(groupBloodNotAllowed, query)
+//     res.status(200).json({
+//       status: 'Success',
+//       code: 200,
+//       message: 'Not recommended products',
+//       ...products
+//     })
+//   } catch (error) {
+//     next(error)
+//   }
+// }
 
 const getProductsByQuery = async (req, res, next) => {
   const { name } = req.query
@@ -60,7 +73,7 @@ const getProductsByQuery = async (req, res, next) => {
 }
 
 module.exports = {
-  getDailyCalories,
-  getProducts,
+  getCaloriesNotRecProduct,
+  // getProducts,
   getProductsByQuery,
 }
