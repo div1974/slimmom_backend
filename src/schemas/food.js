@@ -1,3 +1,4 @@
+// const { boolean } = require('joi')
 const { Schema, model } = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate-v2')
 
@@ -24,9 +25,15 @@ const foodSchema = new Schema(
       type: Number,
     },
     groupBloodNotAllowed: {
+      // type: Array,
+      // 0: null,
+      // 1: Boolean,
+      // 2: Boolean,
+      // 3: Boolean,
+      // 4: Boolean,
       type: [Boolean],
       required: [true, 'Blood type is required'],
-      default: false,
+      default: false
     },
   },
   { versionKey: false, timeStamps: true }

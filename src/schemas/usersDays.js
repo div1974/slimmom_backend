@@ -5,17 +5,29 @@ const userDaySchema = new Schema(
   {
     //
     day: { type: Date, default: Date.now },
-    foods: [String],
+    foods: {
+      type: [
+        {
+          title: {
+            ua: { String },
+            ru: { String },
+          },
+          weight: Number,
+          cal: Number,
+        },
+      ],
+      default: [],
+    },
     summary: {
       rest: Number,
       intake: Number,
       dailyRate: Number,
-      ratio2Norma: String
+      ratio2Norma: String,
     },
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'user',
-    }
+    },
   },
   { versionKey: false }
 )
