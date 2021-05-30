@@ -4,7 +4,7 @@ const mongoosePaginate = require('mongoose-paginate-v2')
 const userDaySchema = new Schema(
   {
     //
-    day: { type: Date, default: Date.now },
+    day: { type: Date, default: Date.now() },
     foods: {
       type: [
         {
@@ -26,8 +26,8 @@ const userDaySchema = new Schema(
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'user',
-    },
+      ref: 'User',
+    }
   },
   { versionKey: false }
 )

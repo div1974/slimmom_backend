@@ -316,7 +316,7 @@
           "message": "User with login: 'user@gmail.com' logged in!",
           "data": {
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYTY4ZWMzNjBiOGQ0MDg1OGUzZjE1YiIsImlhdCI6MTYyMTUyODM5OSwiZXhwIjoxNjIxNjE0Nzk5fQ.4nfCGSY1JsB1NX-N4P_lpZQ6AzaDOLITflE6lbEyNrM"
-    }
+          }
         }
       },
 
