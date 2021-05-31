@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 
 const controllerUserDay = require('../../src/controllers/controllerUserDay')
+const guard = require('../../src/helpers/guard')
 
 router
-  .post('/:productId', controllerUserDay.eatenProductPerDay)
+  .post('/:productId', guard, controllerUserDay.eatenProductPerDay)
 
 // router.get('/', async (req, res, next) => {
 //   res.json({ message: 'template message' })
