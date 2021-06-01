@@ -20,13 +20,14 @@ const userSchema = new Schema(
       required: [true, 'Password is required'],
       minlength: 6,
     },
-    // NotAllowedFoods: {
-    //   type: [Boolean],
-    //   default: false,
-    // },
-    // dailyCalorieIntake: {
-    //   type: Number
-    // },
+    NotAllowedFoods: {
+      type: [String],
+      default: []
+    },
+    dailyCalorieIntake: {
+      type: Number,
+      default: 0
+    },
     token: {
       type: String,
       default: null,
