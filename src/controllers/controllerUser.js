@@ -84,8 +84,25 @@ const logout = async (req, res, next) => {
   })
 }
 
+const updCalNotRecFoods = async (req, res, next) => {
+  const userIn = req.user
+
+  try {
+    await serviceUser.updateUser(userIn.id, 'dailyCalorieIntake', req.query.dailyCalorieIntake)
+    res.json({
+      status: '200 OK',
+      ResponseBody: {
+        user: userIn.email,
+        newdailyCalorieIntake: req.query.dailyCalorieIntake
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
 module.exports = {
   signup,
   login,
   logout,
+  updCalNotRecFoods
 }
