@@ -1,11 +1,10 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const controllerUserDay = require('../../src/controllers/controllerUserDay')
-const guard = require('../../src/helpers/guard')
+const controllerUserDay = require("../../src/controllers/controllerUserDay");
+const guard = require("../../src/helpers/guard");
 
-router
-  .post('/:productId', guard, controllerUserDay.eatenProductPerDay)
+router.post("/:productId", guard, controllerUserDay.eatenProductPerDay);
 
 // router.get('/', async (req, res, next) => {
 //   res.json({ message: 'template message' })
@@ -27,4 +26,4 @@ router
 //   res.json({ message: 'template message' })
 // })
 
-module.exports = router
+module.exports = router;

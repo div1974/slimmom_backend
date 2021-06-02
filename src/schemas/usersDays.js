@@ -1,10 +1,9 @@
-const { Schema, model } = require('mongoose')
-const mongoosePaginate = require('mongoose-paginate-v2')
+const { Schema, model } = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const userDaySchema = new Schema(
   {
-    //
-    day: { type: Date, default: Date.now() },
+    day: { type: String, default: Date.now() },
     foods: {
       type: [
         {
@@ -27,12 +26,12 @@ const userDaySchema = new Schema(
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
   },
   { versionKey: false }
-)
-userDaySchema.plugin(mongoosePaginate)
-const UserDay = model('UserDay', userDaySchema)
+);
+userDaySchema.plugin(mongoosePaginate);
+const UserDay = model("UserDay", userDaySchema);
 
-module.exports = UserDay
+module.exports = UserDay;
