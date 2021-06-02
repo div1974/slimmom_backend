@@ -1,21 +1,28 @@
-const { EatenProductDayService } = require('../services')
+const { EatenProductDayService } = require("../services");
 // const { UserDay } = require('../schemas')
-const eatenProduct = new EatenProductDayService()
+const eatenProduct = new EatenProductDayService();
 // const productService = new ProductsServices()
 // const userService = new UserService()
 
 const eatenProductPerDay = async (req, res, next) => {
   // const food = UserDay.find()
-  const owner = req.user._id
+  const owner = req.user._id;
   // const { name } = req.query
-  const { productId } = req.params
-  const { day, weight } = req.body
+  const { productId } = req.params;
+  const { day, weight, calories } = req.body;
   try {
-    const product = await eatenProduct.getProductById(productId)
+    const product = await eatenProduct.getProductById(productId);
     // const convertedCalories = product.calories * (weight / 100)
 
-    const addProd = await eatenProduct.addProduct(owner, product, day, weight)
-    console.log('addProd', addProd)
+    const addProd = await eatenProduct.addProduct(
+      owner,
+      product,
+      day,
+      weight,
+      calories
+    );
+
+    // const updateSummary = await eatenProduct.uptadeSummary(calories);
     // if (!product) {
     //   return res.status(404).json({
     //     status: 'Error',
@@ -23,11 +30,12 @@ const eatenProductPerDay = async (req, res, next) => {
     //     message: 'Product not found'
     //   })
     // }
-    return res.status(200).json({
-      status: 'Success',
-      code: 200,
-      message: 'Product was found',
+    return res.status(201).json({
+      status: "Success",
+      code: 201,
+      message: "Product added successfully",
       addProd,
+      // updateSummary,
       // product: {
       //   id: product._id,
       //   // date: day,
@@ -35,12 +43,12 @@ const eatenProductPerDay = async (req, res, next) => {
       //   weight: weight,
       //   calories: convertedCalories
       // }
-    })
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 module.exports = {
-  eatenProductPerDay
-}
+  eatenProductPerDay,
+};
