@@ -25,7 +25,8 @@ const userSchema = new Schema(
       default: []
     },
     dailyCalorieIntake: {
-      type: Number
+      type: Number,
+      default: 0
     },
     token: {
       type: String,

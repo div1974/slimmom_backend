@@ -8,9 +8,10 @@ const userDaySchema = new Schema(
     foods: {
       type: [
         {
+          _id: String,
           title: {
-            ua: { String },
-            ru: { String },
+            ua: String,
+            ru: String,
           },
           weight: Number,
           cal: Number,
@@ -26,8 +27,8 @@ const userDaySchema = new Schema(
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
-    }
+      ref: 'user',
+    },
   },
   { versionKey: false }
 )
