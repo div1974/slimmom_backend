@@ -12,7 +12,6 @@ const eatenProductPerDay = async (req, res, next) => {
   const { day, weight, calories } = req.body;
   try {
     const product = await eatenProduct.getProductById(productId);
-    // const convertedCalories = product.calories * (weight / 100)
 
     const addProd = await eatenProduct.addProduct(
       owner,
@@ -22,14 +21,7 @@ const eatenProductPerDay = async (req, res, next) => {
       calories
     );
 
-    // const updateSummary = await eatenProduct.uptadeSummary(calories);
-    // if (!product) {
-    //   return res.status(404).json({
-    //     status: 'Error',
-    //     code: 404,
-    //     message: 'Product not found'
-    //   })
-    // }
+    const updateSummary = await eatenProduct.uptadeSummary(calories);
     return res.status(201).json({
       status: "Success",
       code: 201,
@@ -45,7 +37,13 @@ const eatenProductPerDay = async (req, res, next) => {
       // }
     });
   } catch (error) {
-    next(error);
+    next(
+      res.status(404).json({
+        status: "Error",
+        code: 404,
+        message: "Product not found",
+      })
+    );
   }
 };
 
