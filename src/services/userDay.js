@@ -42,8 +42,6 @@ class EatenProductDay {
     });
     console.log("checkDay", checkDay);
     if (checkDay) {
-      // const product = await this.modelUserDay.updateOne({ _id: checkDay._id }, { [updateKey]: updateValue })
-      // return product
       checkDay.foods.push({
         _id: _id,
         title: {
