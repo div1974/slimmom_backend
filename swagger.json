@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.0.3",
+    "version": "1.0.8",
     "title": "Swagger test",
     "description": "Showing off swagger-ui-express",
     "license": {
@@ -11,27 +11,21 @@
   },
   "consumes": ["application/json"],
   "produses": ["application/json"],
-  "servers": [{ "url": "http://localhost:3000" }],
+  "servers": [{ "url": "http://localhost:3000" }, { "url": "http://slimmombeckend.herokuapp.com/api-docs/#/" }],
   "tags": [
     {
       "name": "Users",
-      "description": "Signup endpoints"
+      "description": "Registry, Auth, Logout endpoints"
     },
-    {
-      "name": "Users",
-      "description": "Authentication endpoints"
-    },
-    {
-      "name": "Users",
-      "description": "Logout endpoints"
-    },
+   
     {
       "name": "Products",
-      "description": "Calories and Products endpoinds"
+      "description": "Daily Calories, Not recommended products, Search product endpoinds"
     },
+   
     {
-      "name": "Products",
-      "description": "Search query endpoints"
+      "name": "UsersDays",
+      "description": "Add and Delete product, Get information for a specific day"
     }
   ],
 
@@ -84,7 +78,6 @@
         "tags": ["Users"],
         "summary": "User authentication",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Authentication's object",
           "required": true,
@@ -127,49 +120,42 @@
       "post": {
         "tags": ["Users"],
         "summary": "User logout",
-        "parameters": [],
-        "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Logout's object",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LogoutRequest"
-              }
-            }
+        "parameters": [
+          {
+            "in": "Authorization",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Токен выданый текущему пользователю",
+            "required": true
           }
-        },
+        ],
+        "security": [{ "Bearer": [] }],
         "responses": {
           "204": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LogoutResponse"
-                }
-              }
-            }
+            "description": "Successful operation - пользователь разлогинен",
+            "content": {}
           },
           "403": {
-            "description": "Forbidden",
+            "description": "Forbidden - отсутствует заголовок с токеном авторизации",
             "content": {}
           }
         }
       }
     },
 
-    "/api/products": {
-      "get": {
+    "/api/products?page=1&limit=5": {
+      "post": {
         "tags": ["Products"],
-        "summary": "Not recommended products",
+        "summary": "PUBLIC Daily calories and not recommended products",
+        "description": "Параметры запроса - динамические (их можно изменить). Они не обязательны, но без них не будет пагинации",
         "parameters": [],
         "requestBody": {
-          "description": "Blood type object",
+          "description": "Daily calories object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductsRequest"
+                "$ref": "#/components/schemas/PublicDailyCalcProductsRequest"
               }
             }
           }
@@ -180,7 +166,7 @@
             "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductsResponse"
+                "$ref": "#/components/schemas/PublicDailyCalcProductsResponse"
               }
             }
           }
@@ -199,12 +185,14 @@
         "summary": "Search by query",
         "parameters": [
           {
-          "in": "query",
-          "name": "name",
-          "type": "string",
-          "description": "Name of product "
+            "in": "query",
+            "name": "Search by query",
+            "type": "string",
+            "description": "Введите название продукта"
+            
           }
         ],
+        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -219,6 +207,95 @@
           "204": {
             "description": "Successful operation. No content",
             "products": {}
+          },
+          "500": {
+            "description": "Bad request by query"
+          }
+        }
+      }
+    },
+
+    "/api/users/priv?page=1&limit=5": {
+      "post": {
+        "tags": ["UsersDays"],
+        "summary": "PRIVATE Daily calories and not recommended products",
+        "description": "Параметры запроса - динамические (их можно изменить). Они не обязательны, но без них не будет пагинации",
+        "parameters": [
+          
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Daily calories object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateDailyCalcProductsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateDailyCalcProductsResponse"
+              }
+            }
+          }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/usersDays/{producrId}": {
+      "post": {
+        "tags": ["UsersDays"],
+        "summary": "Adding a product on a specific day",
+        "parameters": [
+          {
+            "in": "Product Id",
+            "name": "ProductId",
+            "type": "string",
+            "description": "Уникальный идентификатор продукта",
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Product's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product added successfully",
+            "content": {
+              "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductResponse"
+              }
+            }
+            }
+          },
+          "400": {
+            "description": "Bad requst (invalid request params)",
+            "content": {}
+          },
+          "403": {
+            "description": "Forbidden - отсутствует заголовок с токеном авторизации",
+            "content": {}
           }
         }
       }
@@ -234,7 +311,7 @@
           "name": {
             "type": "string",
             "description": "User's name",
-            "example": "Roman"
+            "example": "User"
           },
           "login": {
             "type": "string",
@@ -254,7 +331,7 @@
           "name": {
             "type": "string",
             "description": "User's name",
-            "example": "Roman"
+            "example": "User"
           },
            "login": {
             "type": "string",
@@ -323,26 +400,43 @@
       "LogoutRequest": {
         "type": "object",
         "description": "No content",
-        "example": "No content"
+        "example": "Bearer token"
       },
       "LogoutResponse": {
         "type": "object",
         "description": "No content",
-        "example": "No content"
+        "example": "Token: null"
       },
 
-      "ProductsRequest": {
+      "PublicDailyCalcProductsRequest": {
         "type": "object",
-        "required": ["groupBloodNotAllowed"],
+        "required": ["height", "age", "currentWeight", "desiredWeight", "groupBloodNotAllowed"],
         "properties": {
+          "height": {
+            "type": "string"
+          },
+          "age": {
+            "type": "string" 
+          },
+          "currentWeight": {
+            "type": "string" 
+          },
+          "desiredWeight": {
+            "type": "string" 
+          },
           "groupBloodNotAllowed": {
-            "type": "object",
-            "description": "Blood type",
-            "example": [null, false, false, false, true]
+            "type": "number"
           }
-        }
+        },
+        "example": {
+              "height": "180",
+              "age": "30",
+              "currentWeight": "70",
+              "desiredWeight": "68" ,
+              "groupBloodNotAllowed": 2
+            }
       },
-      "ProductsResponse": {
+      "PublicDailyCalcProductsResponse": {
         "type": "object",
         "items": {
           "properties": {
@@ -359,13 +453,148 @@
           "message": "Not recommended products",
           "products": [
             {
-              "_id": "5d51694902b2373622ff5c4d",
+              "id": "5d51694902b2373622ff5c86",
               "title": {
-                "ru": "Масло арахисовое PB2 сухое обезжиренное",
-                "ua": "Олія арахісове PB2 сухе знежирене"
-              }
+                "ru": "Бразильский орех",
+                "ua": "Бразильський горіх"
+              },
+              "calories": 656
             }
           ]
+        }
+      },
+
+      "PrivateDailyCalcProductsRequest": {
+        "type": "object",
+        "required": ["height", "age", "currentWeight", "desiredWeight", "groupBloodNotAllowed"],
+        "properties": {
+          "height": {
+            "type": "string"
+          },
+          "age": {
+            "type": "string" 
+          },
+          "currentWeight": {
+            "type": "string" 
+          },
+          "desiredWeight": {
+            "type": "string" 
+          },
+          "groupBloodNotAllowed": {
+            "type": "number"
+          }
+        },
+        "example": {
+              "height": "180",
+              "age": "30",
+              "currentWeight": "70",
+              "desiredWeight": "68" ,
+              "groupBloodNotAllowed": 2
+            }
+      },
+      "PrivateDailyCalcProductsResponse": {
+        "type": "object",
+        "items": {
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Not recommended products",
+              "example": {"ru": "Арахис сушеный", "ua": "Арахіс сушений"}
+            }
+          }
+        },
+        "example": {
+          "status": "Success",
+          "code": 201,
+          "message": "Not recommended products",
+          "products": [
+            {
+              "id": "5d51694902b2373622ff5c86",
+              "title": {
+                "ru": "Бразильский орех",
+                "ua": "Бразильський горіх"
+              },
+              "calories": 656
+            }
+          ]
+        }
+      },
+
+      "SearchProductsResponse": {
+        "example": {
+          "status": "Success",
+          "code": 200,
+          "message": "Product found",
+          "products": [
+            {
+              "id": "5d51694902b2373622ff5ef5",
+              "title": {
+                "ru": "Кофе Maxwell House гранулированный сухой",
+                "ua": "Кава Maxwell House гранульований сухий"
+              },
+              "calories": 100
+            },
+            {
+              "id": "5d51694902b2373622ff5ef6",
+              "title": {
+                "ru": "Кофе Maxwell House растворимый сухой",
+                "ua": "Кава Maxwell House розчинна суха"
+              },
+              "calories": 100
+            }
+          ]
+        }
+      },
+
+      "AddProductRequest": {
+        "type": "object",
+        "required": ["day, weight"],
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "Specific day",
+            "example": "2021/05/28"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Product's weight",
+            "example": 100
+          }
+        }
+      },
+      "AddProductResponse": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "Specific day",
+            "example": "2021/05/28"
+          },
+          "weight": {
+            "type": "string",
+            "description": "Product's weight",
+            "example": "100"
+          }
+        },
+        "example": {
+          "status": "Success",
+          "code": 201,
+          "message": "Product added successfully",
+          "addProd": {
+            "day": "28-05-2021",
+            "_id": "60b8adc74d0f272fb082e845",
+            "foods": [
+              {
+                "title": {
+                    "ua": "Горох Містраль Айдахо",
+                    "ru": "Горох Мистраль Айдахо"
+                },
+                "_id": "5d51694802b2373622ff554e",
+                "weight": 100,
+                "cal": 317
+              }
+            ]
+          }
         }
       }
     },
