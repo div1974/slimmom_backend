@@ -5,7 +5,8 @@ const schemaCalculator = Joi.object({
   age: Joi.string().min(2).required(),
   currentWeight: Joi.string().min(2).required(),
   desiredWeight: Joi.string().min(2).required(),
-  groupBloodNotAllowed: Joi.array().items(null, Joi.boolean()).required(),
+  // groupBloodNotAllowed: Joi.array().items(null, Joi.boolean()).required(),
+  groupBloodNotAllowed: Joi.number().min(1).max(4).required()
 })
 
 const validate = (schema, body, next) => {

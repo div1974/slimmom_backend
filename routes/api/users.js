@@ -10,7 +10,7 @@ router.post('/signup', controllerUser.signup)
 router.post('/login', controllerUser.login)
 
 router.post('/logout', guard, controllerUser.logout)
-router.patch('/priv', guard, controllerUser.updCalNotRecFoods)
+router.post('/priv', guard, controllerUser.updCalNotRecFoods)
 
 // router.get('/', async (req, res, next) => {
 //   res.json({ message: 'template message' })

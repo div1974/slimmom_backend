@@ -9,10 +9,12 @@ const getCaloriesNotRecProduct = async (req, res, next) => {
     const { groupBloodNotAllowed } = req.body;
     const { query } = req;
     const calories = await calculator(body);
+    // console.log('groupBloodNotAllowed',groupBloodNotAllowed)
     const products = await productsServices.getNotRecProducts(
       groupBloodNotAllowed,
       query
     );
+    console.log('products',products)
     const notRecProducts = await products.map((product) => ({
       id: product._id,
       title: product.title,

@@ -6,7 +6,7 @@ const controllerProducts = require('../../src/controllers/controllersProducts')
 const { validateCalc } = require('../../src/validation/calculatorValidate')
 
 router
-  .get('/', validateCalc, controllerProducts.getCaloriesNotRecProduct)
+  .post('/', validateCalc, controllerProducts.getCaloriesNotRecProduct)
   // .get('/calculator', validateCalc, calculator.getDailyCalories)
   .get('/foods', controllerProducts.getProductsByQuery)
 
