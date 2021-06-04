@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const controllerUser = require('../../src/controllers/controllerUser')
-
+const controllerUser = require('../../src/controllers/controllerUser') 
 // const { validateAuth } = require('../../src/validation/authenticationValidate')
 const guard = require('../../src/helpers/guard')
 
@@ -11,6 +10,7 @@ router.post('/signup', controllerUser.signup)
 router.post('/login', controllerUser.login)
 
 router.post('/logout', guard, controllerUser.logout)
+router.post('/priv', guard, controllerUser.updCalNotRecFoods)
 
 // router.get('/', async (req, res, next) => {
 //   res.json({ message: 'template message' })
