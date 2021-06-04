@@ -1,5 +1,5 @@
 const { UserService, AuthService } = require('../services')
-// const {getCaloriesNotRecProduct} = require('./controllers')
+const {getCaloriesNotRecProduct} = require('./controllersProducts')
 
 const serviceUser = new UserService()
 const serviceAuth = new AuthService()
