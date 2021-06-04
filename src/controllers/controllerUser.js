@@ -1,4 +1,5 @@
 const { UserService, AuthService } = require('../services')
+const {getCaloriesNotRecProduct} = require('./controllers')
 
 const serviceUser = new UserService()
 const serviceAuth = new AuthService()
@@ -88,6 +89,7 @@ const updCalNotRecFoods = async (req, res, next) => {
   const userIn = req.user
 
   try {
+    await getCaloriesNotRecProduct(req, res, next)
     await serviceUser.updateUser(userIn.id, 'dailyCalorieIntake', req.query.dailyCalorieIntake)
     res.json({
       status: '200 OK',
