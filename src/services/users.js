@@ -22,8 +22,12 @@ class UserService {
     return userById
   }
 
-  async updateUser (id, updateKey, updateValue) {
-    return this.model.updateOne({ _id: id }, { [updateKey]: updateValue })
+  async updateUser (id,  dailyCalories, notRecProducts) {
+const Update = {
+  dailyCalorieIntake: dailyCalories,
+  NotAllowedFoods: notRecProducts
+}
+    return await this.model.findOneAndUpdate({ _id: id }, Update, {new:true})
   }
 }
 

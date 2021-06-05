@@ -9,24 +9,26 @@ const eatenProductPerDay = async (req, res, next) => {
   const owner = req.user._id;
   // const { name } = req.query
   const { productId } = req.params;
-  const { day, weight, calories } = req.body;
+  const { day, weight /*calories*/ } = req.body;
   try {
     const product = await eatenProduct.getProductById(productId);
-
+const calories = product.calories
+const user = await eatenProduct.getUserById(owner)
     const addProd = await eatenProduct.addProduct(
-      owner,
+      user,
       product,
       day,
       weight,
       calories
     );
 
-    const updateSummary = await eatenProduct.uptadeSummary(calories);
+    // const updateSummary = await eatenProduct.updateSummary(owner, calories);
     return res.status(201).json({
       status: "Success",
       code: 201,
       message: "Product added successfully",
       addProd,
+      // summary
       // updateSummary,
       // product: {
       //   id: product._id,

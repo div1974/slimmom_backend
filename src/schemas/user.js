@@ -21,7 +21,7 @@ const userSchema = new Schema(
       minlength: 6,
     },
     NotAllowedFoods: {
-      type: [String],
+      type: [],
       default: []
     },
     dailyCalorieIntake: {

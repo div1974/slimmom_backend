@@ -14,7 +14,7 @@ const getCaloriesNotRecProduct = async (req, res, next) => {
       groupBloodNotAllowed,
       query
     );
-    console.log('products',products)
+    // console.log('products',products)
     const notRecProducts = await products.map((product) => ({
       id: product._id,
       title: product.title,

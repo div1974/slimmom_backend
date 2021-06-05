@@ -1,5 +1,7 @@
 const { UserService, AuthService } = require('../services')
 const {getCaloriesNotRecProduct} = require('./controllersProducts')
+const { ProductsServices } = require('../services')
+const calculator = require('../helpers/calculator')
 
 const serviceUser = new UserService();
 const serviceAuth = new AuthService();
@@ -91,15 +93,33 @@ const logout = async (req, res, next) => {
 
 const updCalNotRecFoods = async (req, res, next) => {
   const userIn = req.user
+  const productsServices = new ProductsServices();
 
   try {
-    await getCaloriesNotRecProduct(req, res, next)
-    await serviceUser.updateUser(userIn.id, 'dailyCalorieIntake', req.query.dailyCalorieIntake)
+    
+    const { body } = req;
+    const { groupBloodNotAllowed } = req.body;
+    const { query } = req;
+    const dailyCalories = await calculator(body);
+    const products = await productsServices.getNotRecProducts(
+      groupBloodNotAllowed,
+      query
+    );
+    const notRecProducts = await products.map((product) => ({
+      id: product._id,
+      title: product.title,
+      calories: product.calories,
+    }));
+
+        
+    const UpdatedUser = await serviceUser.updateUser(userIn.id, dailyCalories, notRecProducts)
     res.json({
       status: '200 OK',
       ResponseBody: {
-        user: userIn.email,
-        newdailyCalorieIntake: req.query.dailyCalorieIntake
+        user: UpdatedUser.id,
+        UpdatedDailyCalorieIntake: UpdatedUser.dailyCalorieIntake,
+        UpdatedNotAllowedFoods: UpdatedUser.NotAllowedFoods
+        
       }
     })
   } catch (error) {
