@@ -1,6 +1,5 @@
-// const { boolean } = require('joi')
-const { Schema, model } = require('mongoose')
-const mongoosePaginate = require('mongoose-paginate-v2')
+const { Schema, model } = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const foodSchema = new Schema(
   {
@@ -19,28 +18,22 @@ const foodSchema = new Schema(
       ua: {
         type: String,
       },
-      required: [true, 'Set food title'],
+      required: [true, "Set food title"],
     },
     calories: {
       type: Number,
     },
     groupBloodNotAllowed: {
-      // type: Array,
-      // 0: null,
-      // 1: Boolean,
-      // 2: Boolean,
-      // 3: Boolean,
-      // 4: Boolean,
       type: [Boolean],
-      required: [true, 'Blood type is required'],
-      default: false
+      required: [true, "Blood type is required"],
+      default: false,
     },
   },
   { versionKey: false, timeStamps: true }
-)
+);
 
-foodSchema.plugin(mongoosePaginate)
+foodSchema.plugin(mongoosePaginate);
 
-const Food = model('Food', foodSchema)
+const Food = model("Food", foodSchema);
 
-module.exports = Food
+module.exports = Food;

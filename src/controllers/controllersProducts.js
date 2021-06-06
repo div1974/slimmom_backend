@@ -9,12 +9,10 @@ const getCaloriesNotRecProduct = async (req, res, next) => {
     const { groupBloodNotAllowed } = req.body;
     const { query } = req;
     const calories = await calculator(body);
-    // console.log('groupBloodNotAllowed',groupBloodNotAllowed)
     const products = await productsServices.getNotRecProducts(
       groupBloodNotAllowed,
       query
     );
-    console.log('products',products)
     const notRecProducts = await products.map((product) => ({
       id: product._id,
       title: product.title,
@@ -27,31 +25,12 @@ const getCaloriesNotRecProduct = async (req, res, next) => {
       products: {
         dailyCalories: calories,
         notRecProducts,
-        // notRecProducts: products._id,
-        // title: products.title
       },
-      // products
     });
   } catch (error) {
     next(error);
   }
 };
-
-// const getProducts = async (req, res, next) => {
-//   try {
-//     const { groupBloodNotAllowed } = req.body
-//     const { query } = req
-//     const products = await productsServices.getNotRecProducts(groupBloodNotAllowed, query)
-//     res.status(200).json({
-//       status: 'Success',
-//       code: 200,
-//       message: 'Not recommended products',
-//       ...products
-//     })
-//   } catch (error) {
-//     next(error)
-//   }
-// }
 
 const getProductsByQuery = async (req, res, next) => {
   const { name } = req.query;
@@ -84,6 +63,5 @@ const getProductsByQuery = async (req, res, next) => {
 
 module.exports = {
   getCaloriesNotRecProduct,
-  // getProducts,
   getProductsByQuery,
 };

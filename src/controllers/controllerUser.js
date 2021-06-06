@@ -1,4 +1,7 @@
-const { UserService, AuthService } = require("../services");
+const { UserService, AuthService } = require('../services')
+const {getCaloriesNotRecProduct} = require('./controllersProducts')
+const { ProductsServices } = require('../services')
+const calculator = require('../helpers/calculator')
 
 const serviceUser = new UserService();
 const serviceAuth = new AuthService();
@@ -20,13 +23,11 @@ const signup = async (req, res, next) => {
       login,
       password,
     });
-    // console.log(newUser)
     return res.status(201).json({
       status: "Success",
       code: 201,
       message: `User with name: '${name}' added successfully!`,
       data: {
-        // user: newUser
         id: newUser.id,
         name: newUser.name,
         login: newUser.login,
@@ -40,7 +41,6 @@ const signup = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { login, password } = req.body;
-  // console.log('req.body', req.body)
   if (!login || !password) {
     return res.status(400).json({
       status: "Error",
@@ -84,20 +84,38 @@ const logout = async (req, res, next) => {
   return res.status(204).json({
     status: "Success",
     code: 204,
-    // message: 'User logout!'
   });
 };
 
 const updCalNotRecFoods = async (req, res, next) => {
   const userIn = req.user
+  const productsServices = new ProductsServices();
 
   try {
-    await serviceUser.updateUser(userIn.id, 'dailyCalorieIntake', req.query.dailyCalorieIntake)
+    
+    const { body } = req;
+    const { groupBloodNotAllowed } = req.body;
+    const { query } = req;
+    const dailyCalories = await calculator(body);
+    const products = await productsServices.getNotRecProducts(
+      groupBloodNotAllowed,
+      query
+    );
+    const notRecProducts = await products.map((product) => ({
+      id: product._id,
+      title: product.title,
+      calories: product.calories,
+    }));
+
+        
+    const UpdatedUser = await serviceUser.updateUser(userIn.id, dailyCalories, notRecProducts)
     res.json({
       status: '200 OK',
       ResponseBody: {
-        user: userIn.email,
-        newdailyCalorieIntake: req.query.dailyCalorieIntake
+        user: UpdatedUser.id,
+        UpdatedDailyCalorieIntake: UpdatedUser.dailyCalorieIntake,
+        UpdatedNotAllowedFoods: UpdatedUser.NotAllowedFoods
+        
       }
     })
   } catch (error) {
