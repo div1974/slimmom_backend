@@ -23,13 +23,11 @@ const signup = async (req, res, next) => {
       login,
       password,
     });
-    // console.log(newUser)
     return res.status(201).json({
       status: "Success",
       code: 201,
       message: `User with name: '${name}' added successfully!`,
       data: {
-        // user: newUser
         id: newUser.id,
         name: newUser.name,
         login: newUser.login,
@@ -43,7 +41,6 @@ const signup = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { login, password } = req.body;
-  // console.log('req.body', req.body)
   if (!login || !password) {
     return res.status(400).json({
       status: "Error",
@@ -87,7 +84,6 @@ const logout = async (req, res, next) => {
   return res.status(204).json({
     status: "Success",
     code: 204,
-    // message: 'User logout!'
   });
 };
 

@@ -215,7 +215,7 @@
       }
     },
 
-    "/api/users/priv?page=1&limit=5": {
+    "/api/users/private?page=1&limit=5": {
       "post": {
         "tags": ["UsersDays"],
         "summary": "PRIVATE Daily calories and not recommended products",
@@ -253,6 +253,7 @@
         }
       }
     },
+    
     "/api/usersDays/{producrId}": {
       "post": {
         "tags": ["UsersDays"],
