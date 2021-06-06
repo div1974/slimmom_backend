@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json"],
   "produses": ["application/json"],
-  "servers": [{ "url": "https://slimmombeckend.herokuapp.com/api-docs" }, { "url": "http://localhost:3000" }],
+  "servers": [{ "url": "https://slimmombeckend.herokuapp.com" }, { "url": "http://localhost:3000" }],
   "tags": [
     {
       "name": "Users",
