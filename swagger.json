@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json"],
   "produses": ["application/json"],
-  "servers": [{ "url": "http://localhost:3000" }, { "url": "http://slimmombeckend.herokuapp.com/api-docs/#/" }],
+  "servers": [{ "url": "https://slimmombeckend.herokuapp.com" }, { "url": "http://localhost:3000" }],
   "tags": [
     {
       "name": "Users",
@@ -220,6 +220,7 @@
         "tags": ["UsersDays"],
         "summary": "PRIVATE Daily calories and not recommended products",
         "description": "Параметры запроса - динамические (их можно изменить). Они не обязательны, но без них не будет пагинации",
+        "required": true,
         "parameters": [
           
         ],
@@ -258,6 +259,7 @@
       "post": {
         "tags": ["UsersDays"],
         "summary": "Adding a product on a specific day",
+        "required": true,
         "parameters": [
           {
             "in": "Product Id",
@@ -286,6 +288,98 @@
               "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AddProductResponse"
+              }
+            }
+            }
+          },
+          "400": {
+            "description": "Bad requst (invalid request params)",
+            "content": {}
+          },
+          "403": {
+            "description": "Forbidden - отсутствует заголовок с токеном авторизации",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/usersDays/{delProductId}": {
+      "delete": {
+        "tags": ["UsersDays"],
+        "summary": "Remove a product on a specific day",
+        "required": true,
+        "parameters": [
+          {
+            "in": "Product Id",
+            "name": "ProductId",
+            "type": "string",
+            "description": "Уникальный идентификатор продукта",
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Product's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product added successfully",
+            "content": {
+              "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveProductResponse"
+              }
+            }
+            }
+          },
+          "400": {
+            "description": "Bad requst (invalid request params)",
+            "content": {}
+          },
+          "403": {
+            "description": "Forbidden - отсутствует заголовок с токеном авторизации",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/usersDays": {
+      "post": {
+        "tags": ["UsersDays"],
+        "summary": "User information for a specific day ",
+        "required": true,
+        "parameters": [
+          
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Users day object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDayProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User's day was found",
+            "content": {
+              "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDayProductResponse"
               }
             }
             }
@@ -505,19 +599,54 @@
           }
         },
         "example": {
-          "status": "Success",
-          "code": 201,
-          "message": "Not recommended products",
-          "products": [
+          "status": "200 OK",
+    "ResponseBody": {
+        "user": "60bcfc1ce0edae14400ee0dd",
+        "UpdatedDailyCalorieIntake": 1494,
+        "UpdatedNotAllowedFoods": 
+          [
             {
-              "id": "5d51694902b2373622ff5c86",
+              "id": "5d51694902b2373622ff5909",
               "title": {
-                "ru": "Бразильский орех",
-                "ua": "Бразильський горіх"
+                "ru": "Азу",
+                "ua": "Азу"
               },
-              "calories": 656
-            }
+              "calories": 214
+            },
+            {
+              "id": "5d51694902b2373622ff590a",
+              "title": {
+                "ru": "Антрекот",
+                "ua": "Антрекот"
+              },
+              "calories": 396
+            },
+            {
+              "id": "5d51694902b2373622ff590b",
+              "title": {
+                "ru": "Антрекот из говядины",
+                "ua": "Антрекот з яловичини"
+              },
+              "calories": 220
+            },
+            {
+              "id": "5d51694902b2373622ff590c",
+              "title": {
+                "ru": "Антрекот из свинины",
+                "ua": "Антрекот зі свинини"
+              },
+              "calories": 210
+            },
+            {
+              "id": "5d51694802b2373622ff566e",
+              "title": {
+                "ru": "Аньолотти",
+                "ua": "Аньолотті"
+              },
+              "calories": 344
+              }
           ]
+        }
         }
       },
 
@@ -549,7 +678,7 @@
 
       "AddProductRequest": {
         "type": "object",
-        "required": ["day, weight"],
+        "required": ["day", "weight"],
         "properties": {
           "day": {
             "type": "string",
@@ -580,21 +709,116 @@
         "example": {
           "status": "Success",
           "code": 201,
-          "message": "Product added successfully",
+          "message": "Product id: 5d51694802b2373622ff5530 added successfully",
           "addProd": {
             "day": "28-05-2021",
-            "_id": "60b8adc74d0f272fb082e845",
+            "_id": "60bcfd5d119b8739a476df49",
+            "foods": [
+              {
+                "_id": "5d51694802b2373622ff5530",
+                "title": {
+                  "ua": "Омлет із сиром",
+                  "ru": "Омлет с сыром"
+                },
+                "weight": 100,
+                "cal": 342
+              }
+            ],
+            "owner": "60bcfc1ce0edae14400ee0dd",
+            "summary": {
+              "rest": 1152,
+              "intake": 342,
+              "dailyRate": 1494,
+              "ratio2Norma": "23"
+            }
+          } 
+        }
+      },
+
+      "RemoveProductRequest": {
+        "type": "object",
+        "required": ["day"],
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "Specific day",
+            "example": "2021/05/28"
+          }
+        }
+      },
+      "RemoveProductResponse": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "Specific day",
+            "example": "2021/05/28"
+          }
+        },
+        "example": {
+          "status": "Success",
+          "code": 200,
+          "message": "Product id: 5d51694802b2373622ff5530 removed successfully",
+          "delProduct": {
+            "summary": {
+            "rest": 1494,
+            "intake": 0,
+            "dailyRate": 1494,
+            "ratio2Norma": 0
+            },
+            "day": "28-05-2021",
+            "_id": "60bcfd5d119b8739a476df49",
+            "foods": [],
+            "owner": "60bcfc1ce0edae14400ee0dd"
+          }
+        }
+      },
+
+      "UserDayProductRequest": {
+        "type": "object",
+        "required": ["day"],
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "Specific day",
+            "example": "2021/05/28"
+          }
+        }
+      },
+      "UserDayProductResponse": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "Specific day",
+            "example": "2021/05/28"
+          }
+        },
+        "example": {
+          "status": "Success",
+          "code": 200,
+          "message": "User's day was found",
+          "findUserByDay": {
+            "summary": {
+              "rest": 1152,
+              "intake": 342,
+              "dailyRate": 1494,
+              "ratio2Norma": "23"
+            },
+            "day": "28-05-2021",
+            "_id": "60bcfd5d119b8739a476df49",
             "foods": [
               {
                 "title": {
-                    "ua": "Горох Містраль Айдахо",
-                    "ru": "Горох Мистраль Айдахо"
+                  "ua": "Омлет із сиром",
+                  "ru": "Омлет с сыром"
                 },
-                "_id": "5d51694802b2373622ff554e",
+                "_id": "5d51694802b2373622ff5530",
                 "weight": 100,
-                "cal": 317
+                "cal": 342
               }
-            ]
+            ],
+            "owner": "60bcfc1ce0edae14400ee0dd"
           }
         }
       }
