@@ -143,86 +143,27 @@
       }
     },
 
-    "/api/products?page=1&limit=5": {
+    "/api/users/private": {
       "post": {
-        "tags": ["Products"],
-        "summary": "PUBLIC Daily calories and not recommended products",
-        "description": "Параметры запроса - динамические (их можно изменить). Они не обязательны, но без них не будет пагинации",
-        "parameters": [],
-        "requestBody": {
-          "description": "Daily calories object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PublicDailyCalcProductsRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PublicDailyCalcProductsResponse"
-              }
-            }
-          }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {}
-          }
-        }
-      }
-    },
-
-    "/api/products/foods?name=query": {
-      "get": {
-        "tags": ["Products"],
-        "summary": "Search by query",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "Search by query",
-            "type": "string",
-            "description": "Введите название продукта"
-            
-          }
-        ],
-        "security": [{ "Bearer": [] }],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SearchProductsResponse"
-              }
-            }
-          }
-          },
-          "204": {
-            "description": "Successful operation. No content",
-            "products": {}
-          },
-          "500": {
-            "description": "Bad request by query"
-          }
-        }
-      }
-    },
-
-    "/api/users/private?page=1&limit=5": {
-      "post": {
-        "tags": ["UsersDays"],
+        "tags": ["Users"],
         "summary": "PRIVATE Daily calories and not recommended products",
         "description": "Параметры запроса - динамические (их можно изменить). Они не обязательны, но без них не будет пагинации",
         "required": true,
         "parameters": [
-          
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "description": "Введите какую страницу хотите получить"
+            
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "description": "Введите количество отображаемых продуктов на странице"
+            
+          }
         ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -254,6 +195,93 @@
         }
       }
     },
+
+    "/api/products": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "PUBLIC Daily calories and not recommended products",
+        "description": "Параметры запроса - динамические (их можно изменить). Они не обязательны, но без них не будет пагинации",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "description": "Введите какую страницу хотите получить"
+            
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "description": "Введите количество отображаемых продуктов на странице"
+            
+          }
+        ],
+        "requestBody": {
+          "description": "Daily calories object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicDailyCalcProductsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicDailyCalcProductsResponse"
+              }
+            }
+          }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/products/foods": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Search by query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "type": "string",
+            "description": "Введите название продукта"
+            
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchProductsResponse"
+              }
+            }
+          }
+          },
+          "204": {
+            "description": "Successful operation. No content",
+            "products": {}
+          },
+          "500": {
+            "description": "Bad request by query"
+          }
+        }
+      }
+    },
     
     "/api/usersDays/{producrId}": {
       "post": {
@@ -262,7 +290,7 @@
         "required": true,
         "parameters": [
           {
-            "in": "Product Id",
+            "in": "ProductId",
             "name": "ProductId",
             "type": "string",
             "description": "Уникальный идентификатор продукта",
@@ -304,14 +332,14 @@
       }
     },
 
-    "api/usersDays/{delProductId}": {
+    "/api/usersDays/{delProductId}": {
       "delete": {
         "tags": ["UsersDays"],
         "summary": "Remove a product on a specific day",
         "required": true,
         "parameters": [
           {
-            "in": "Product Id",
+            "in": "ProductId",
             "name": "ProductId",
             "type": "string",
             "description": "Уникальный идентификатор продукта",
@@ -353,7 +381,7 @@
       }
     },
 
-    "api/usersDays": {
+    "/api/usersDays": {
       "post": {
         "tags": ["UsersDays"],
         "summary": "User information for a specific day ",
