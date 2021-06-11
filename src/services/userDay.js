@@ -89,7 +89,7 @@ class EatenProductDay {
     return products;
   }
 
-  async removeProductById(user, productId, day) {
+  async removeProductById(user, delProductId, day) {
     console.log("owner", user);
     const formatDay = dayjs(day).format("DD-MM-YYYY");
 
@@ -98,7 +98,9 @@ class EatenProductDay {
     });
 
     if (checkDay) {
-      const prod = checkDay.foods.find((product) => product._id === productId);
+      const prod = checkDay.foods.find(
+        (product) => product._id === delProductId
+      );
       const proIndex = checkDay.foods.indexOf(prod);
       console.log("proIndex", proIndex);
       const newArr = checkDay.foods.splice(proIndex, 1);

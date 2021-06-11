@@ -6,7 +6,7 @@ const guard = require("../../src/helpers/guard");
 
 router
   .post("/:productId", guard, controllerUserDay.eatenProductPerDay)
-  .delete("/:productId", guard, controllerUserDay.removeProduct)
+  .delete("/:delProductId", guard, controllerUserDay.removeProduct)
   .post("/", guard, controllerUserDay.getUserDayInfo);
 
 module.exports = router;
