@@ -20,7 +20,7 @@
    
     {
       "name": "Products",
-      "description": "Daily Calories, Not recommended products, Search product endpoinds"
+      "description": "Public Daily Calories and Not recommended products, Search product endpoinds"
     },
    
     {
@@ -154,14 +154,14 @@
             "in": "query",
             "name": "page",
             "type": "string",
-            "description": "Введите какую страницу хотите получить"
+            "description": "Номер страницы"
             
           },
           {
             "in": "query",
             "name": "limit",
             "type": "string",
-            "description": "Введите количество отображаемых продуктов на странице"
+            "description": "Количество отображаемых продуктов на странице"
             
           }
         ],
@@ -190,6 +190,10 @@
           },
           "400": {
             "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "500": {
+            "description": "Bad request (Введите правильную группу крови (1 - 4))",
             "content": {}
           }
         }
@@ -257,6 +261,19 @@
             "name": "name",
             "type": "string",
             "description": "Введите название продукта"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "description": "Номер страницы"
+            
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "description": "Количество отображаемых продуктов на странице"
             
           }
         ],
@@ -283,16 +300,16 @@
       }
     },
     
-    "/api/usersDays/{producrId}": {
+    "/api/usersDays/{productId}": {
       "post": {
         "tags": ["UsersDays"],
         "summary": "Adding a product on a specific day",
         "required": true,
         "parameters": [
           {
-            "in": "ProductId",
-            "name": "ProductId",
-            "type": "string",
+            "in": "path",
+            "name": "productId",
+            "type": "integer",
             "description": "Уникальный идентификатор продукта",
             "required": true
           }
@@ -339,9 +356,9 @@
         "required": true,
         "parameters": [
           {
-            "in": "ProductId",
-            "name": "ProductId",
-            "type": "string",
+            "in": "path",
+            "name": "delProductId",
+            "type": "integer",
             "description": "Уникальный идентификатор продукта",
             "required": true
           }
@@ -359,8 +376,8 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Product added successfully",
+          "200": {
+            "description": "Product remove successfully",
             "content": {
               "application/json": {
               "schema": {
@@ -402,7 +419,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "User's day was found",
             "content": {
               "application/json": {
@@ -627,54 +644,54 @@
           }
         },
         "example": {
-          "status": "200 OK",
-    "ResponseBody": {
-        "user": "60bcfc1ce0edae14400ee0dd",
-        "UpdatedDailyCalorieIntake": 1494,
-        "UpdatedNotAllowedFoods": 
-          [
-            {
-              "id": "5d51694902b2373622ff5909",
-              "title": {
-                "ru": "Азу",
-                "ua": "Азу"
+          "status": "Success",
+          "code": 201,
+          "ResponseBody": {
+            "user": "60bcfc1ce0edae14400ee0dd",
+            "UpdatedDailyCalorieIntake": 1494,
+            "UpdatedNotAllowedFoods": [
+              {
+                "id": "5d51694902b2373622ff5909",
+                "title": {
+                  "ru": "Азу",
+                  "ua": "Азу"
+                },
+                "calories": 214
               },
-              "calories": 214
-            },
-            {
-              "id": "5d51694902b2373622ff590a",
-              "title": {
-                "ru": "Антрекот",
-                "ua": "Антрекот"
+              {
+                "id": "5d51694902b2373622ff590a",
+                "title": {
+                  "ru": "Антрекот",
+                  "ua": "Антрекот"
+                },
+                "calories": 396
               },
-              "calories": 396
-            },
-            {
-              "id": "5d51694902b2373622ff590b",
-              "title": {
-                "ru": "Антрекот из говядины",
-                "ua": "Антрекот з яловичини"
+              {
+                "id": "5d51694902b2373622ff590b",
+                "title": {
+                  "ru": "Антрекот из говядины",
+                  "ua": "Антрекот з яловичини"
+                },
+                "calories": 220
               },
-              "calories": 220
-            },
-            {
-              "id": "5d51694902b2373622ff590c",
-              "title": {
-                "ru": "Антрекот из свинины",
-                "ua": "Антрекот зі свинини"
+              {
+                "id": "5d51694902b2373622ff590c",
+                "title": {
+                  "ru": "Антрекот из свинины",
+                  "ua": "Антрекот зі свинини"
+                },
+                "calories": 210
               },
-              "calories": 210
-            },
-            {
-              "id": "5d51694802b2373622ff566e",
-              "title": {
-                "ru": "Аньолотти",
-                "ua": "Аньолотті"
-              },
-              "calories": 344
+              {
+                "id": "5d51694802b2373622ff566e",
+                "title": {
+                  "ru": "Аньолотти",
+                  "ua": "Аньолотті"
+                },
+                "calories": 344
               }
-          ]
-        }
+            ]
+          }
         }
       },
 

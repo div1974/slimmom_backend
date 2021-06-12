@@ -45,7 +45,7 @@ const eatenProductPerDay = async (req, res, next) => {
 
 const removeProduct = async (req, res, next) => {
   const owner = req.user._id;
-  const { productId } = req.params;
+  const { delProductId } = req.params;
   const { day } = req.body;
 
   try {
@@ -53,13 +53,13 @@ const removeProduct = async (req, res, next) => {
     if (user.dailyCalorieIntake > 0) {
       const delProduct = await eatenProduct.removeProductById(
         user,
-        productId,
+        delProductId,
         day
       );
       return res.status(200).json({
         status: "Success",
         code: 200,
-        message: `Product id: ${productId} removed successfully`,
+        message: `Product id: ${delProductId} removed successfully`,
         delProduct,
       });
     } else {

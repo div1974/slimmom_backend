@@ -1,4 +1,5 @@
 const Food = require("../schemas/food");
+const { ErrorHandler } = require("../helpers/errorHandler");
 
 class Products {
   constructor() {
@@ -51,12 +52,12 @@ class Products {
         return product;
       }
       default:
-        throw error;
+        throw new ErrorHandler(400, "Введите правильную группу крови (1 - 4)");
     }
   }
 
   async getProductsByQuery(name, query) {
-    const { page = 1, limit = 5 } = query;
+    const { page, limit } = query;
     const products = await this.model
       .find({
         $or: [
